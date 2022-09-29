@@ -1,3 +1,7 @@
 import Logo from '../components/Logo'
+import FormRow from './FormRow'
+import Navbar from './Navbar'
+import SmallSidebar from './SmallSidebar'
+import BigSidebar from './BigSidebar'
 
-export { Logo }
+export { Logo, FormRow, Navbar, SmallSidebar, BigSidebar }
