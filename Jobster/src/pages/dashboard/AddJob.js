@@ -43,7 +43,9 @@ const AddJob = () => {
           job: { position, company, jobLocation, jobType, status },
         })
       )
-      navigate('/all-jobs')
+      setTimeout(() => {
+        navigate('/all-jobs')
+      }, 1000)
       return
     }
 
@@ -60,6 +62,7 @@ const AddJob = () => {
     if (!isEditing) {
       dispatch(handleChange({ name: 'jobLocation', value: user.location }))
     }
+    // eslint-disable-next-line
   }, [])
 
   return (

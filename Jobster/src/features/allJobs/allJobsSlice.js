@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { toast } from 'react-toastify'
-import { getAllJobsThunk } from './allJobsThunk'
+import { getAllJobsThunk, showStatsThunk } from './allJobsThunk'
 
 const initialFilterState = {
   search: '',
@@ -17,11 +17,13 @@ const initialState = {
   numOfPages: 1,
   page: 1,
   stats: {},
-  monthlyApplication: [],
+  monthlyApplications: [],
   ...initialFilterState,
 }
 
 export const getAllJobs = createAsyncThunk('allJobs/getJobs', getAllJobsThunk)
+
+export const showStats = createAsyncThunk('allJobs/showStats', showStatsThunk)
 
 const allJobsSlice = createSlice({
   name: 'allJobs',
@@ -35,6 +37,12 @@ const allJobsSlice = createSlice({
     },
     changePage: (state, { payload }) => {
       state.page = payload
+    },
+    showLoading: (state) => {
+      state.isLoading = true
+    },
+    hideLoading: (state) => {
+      state.isLoading = false
     },
   },
   extraReducers: {
@@ -51,9 +59,27 @@ const allJobsSlice = createSlice({
       state.isLoading = false
       toast.error(payload)
     },
+    [showStats.pending]: (state) => {
+      state.isLoading = true
+    },
+    [showStats.fulfilled]: (state, { payload }) => {
+      state.isLoading = false
+      state.stats = payload.defaultStats
+      state.monthlyApplications = payload.monthlyApplications
+    },
+    [showStats.rejected]: (state, { payload }) => {
+      state.isLoading = false
+      toast.error(payload)
+    },
   },
 })
 
-export const { handleChange, clearFilters, changePage } = allJobsSlice.actions
+export const {
+  handleChange,
+  clearFilters,
+  changePage,
+  showLoading,
+  hideLoading,
+} = allJobsSlice.actions
 
 export default allJobsSlice.reducer

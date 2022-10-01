@@ -1,6 +1,7 @@
 import customFetch, { checkForUnauthorizedResponse } from '../../utils/axios'
 import { clearValues } from './jobSlice'
 import { toast } from 'react-toastify'
+import { getAllJobs, hideLoading, showLoading } from '../allJobs/allJobsSlice'
 
 export const createJobThunk = async (job, thunkAPI) => {
   try {
@@ -20,6 +21,19 @@ export const editJobThunk = async ({ editJobId, job }, thunkAPI) => {
     toast.success('Update Job Succeed')
     return resp.data
   } catch (error) {
+    return checkForUnauthorizedResponse(error, thunkAPI)
+  }
+}
+
+export const deleteJobThunk = async (jobId, thunkAPI) => {
+  thunkAPI.dispatch(showLoading())
+  try {
+    const resp = await customFetch.delete(`/jobs/${jobId}`)
+    thunkAPI.dispatch(getAllJobs())
+    toast.success('Deleted Job')
+    return resp.data.msg
+  } catch (error) {
+    thunkAPI.dispatch(hideLoading())
     return checkForUnauthorizedResponse(error, thunkAPI)
   }
 }

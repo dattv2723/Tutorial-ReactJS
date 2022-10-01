@@ -47,7 +47,7 @@ function Register() {
       setTimeout(() => {
         navigate('/')
       }, 2000)
-    }
+    } // eslint-disable-next-line
   }, [user])
   return (
     <Wrapper className='full-page'>

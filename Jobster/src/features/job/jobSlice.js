@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { toast } from 'react-toastify'
-import customFetch from '../../utils/axios'
 import { getUserFromLocalStorage } from '../../utils/localStorage'
-import { createJobThunk, editJobThunk } from './jobThunk'
+import { createJobThunk, deleteJobThunk, editJobThunk } from './jobThunk'
 
 const initialState = {
   isLoading: false,
@@ -20,6 +18,8 @@ const initialState = {
 export const createJob = createAsyncThunk('job/createJob', createJobThunk)
 
 export const editJob = createAsyncThunk('job/editJob', editJobThunk)
+
+export const deleteJob = createAsyncThunk('job/deleteJob', deleteJobThunk)
 
 const jobSlice = createSlice({
   name: 'job',
